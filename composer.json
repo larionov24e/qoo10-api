@@ -1,0 +1,15 @@
+{
+    "name": "egorlarionov1/qoo10api",
+    "authors": [
+        {
+            "name": "egorlarionov1",
+            "email": "el.intertech@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Qoo10\\Api\\": "src/"
+        }
+    }
+}
