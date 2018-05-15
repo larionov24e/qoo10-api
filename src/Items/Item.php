@@ -62,13 +62,17 @@ class Item
     protected function convertParams2String(array $params) {
         $paramResult = [];
 
+        if(!$params) {
+            return;
+        }
+
         foreach ($params as $key => $param) {
             $paramResult[] = sprintf('%s=%s', $key, $param);
         }
 
         $paramResult[] = 'key=' . $this->processor->getCertificate();
 
-        return explode('&', $paramResult);
+        return implode('&', $paramResult);
     }
 
     /**
@@ -85,7 +89,11 @@ class Item
      * @return bool|string
      */
     protected function exec(string $query) {
-        return file_get_contents(self::API_URL . $query);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, self::API_URL . $query);
+        $result = curl_exec($curl);
+
+        return $result;
     }
 
     /**
@@ -96,7 +104,6 @@ class Item
     protected function flowProcess(array $params, string $queryString) {
         $query = $this->prepareQuery($params, $queryString);
         $result = $this->exec($query);
-
         $this->clearParams();
 
         return $result;
